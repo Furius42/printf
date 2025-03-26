@@ -11,27 +11,30 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+/*
 #include <stdio.h>
-char* ft_bitoa(long long int n, int base);
+char	*ft_bitoa(long long int n, int base);
 
 int main(int argc, char* argv[])
 {
-	if (argc != 3 || atoi(argv[2]) > 36 || atoi(argv[2]) < 2)
-		printf("Usage: Input 2 parameters:\n1) Number to convert\n2) The base to convert to ( 2 - 36 )\n");
 	char	*result;
-	long long int num;
-	char base;
+	long	long int num;
+	char	base;
 
+	if (argc != 3 || atoi(argv[2]) > 36 || atoi(argv[2]) < 2)
+		return (printf("Give 2 Args:\nDecimal input\nTarget base(2-36)\n"));
 	num = atoi(argv[1]);
 	base = atoi(argv[2]);
 	result = ft_bitoa(num, base);
 	if (result)
 	{
-		printf("\nConvert decimal:\n%s\nresults:\n%s in base %i\nat address:%p\n", argv[1], result, base, &result);
+		printf("\nConvert decimal:\n%s\nresults:\n%s", argv[1], result);
+		printf(" in base %i\nat address:%p\n", base, &result);
 		free(result);
 	}
 	return (0);
 }
+*/
 
 static int	count_digits(long long int n, int base)
 {
@@ -42,7 +45,7 @@ static int	count_digits(long long int n, int base)
 		count = 1;
 	while (n != 0)
 	{
-		n /= base; 
+		n /= base;
 		count++;
 	}
 	return (count);
@@ -66,15 +69,16 @@ static char	*decimal(long long int n, char *str, int len)
 	}
 	return (str);
 }
-static char *convert( long long int n, char *str, int len, int base)
+
+static char	*convert(long long int n, char *str, int len, int base)
 {
 	unsigned long int	num;
-	static char*			chars;
+	static char			*chars;
 
 	chars = "0123456789abcdefghijklmnopqrstuvwxyz";
 	num = n;
 	str[len] = '\0';
-	while (--len >= 0 )
+	while (--len >= 0)
 	{
 		str[len] = chars[(num % base)];
 		num /= base;
@@ -82,9 +86,9 @@ static char *convert( long long int n, char *str, int len, int base)
 	return (str);
 }
 
-char* ft_bitoa(long long int n, int base)
+char	*ft_bitoa(long long int n, int base)
 {
-	char			*str;
+	char	*str;
 	int		len;
 
 	len = count_digits(n, base);

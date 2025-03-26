@@ -1,5 +1,6 @@
 SRCS	=	libftprintf.c \
-			convert.c
+			convert.c \
+			ft_bitoa.c
 
 OBJS	= ${SRCS:%c=%o}			# Object files: .o files corresponding to .c files
 

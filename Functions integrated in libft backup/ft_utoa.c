@@ -6,7 +6,7 @@
 /*   By: vhoracek <vhoracek@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:29:03 by vhoracek          #+#    #+#             */
-/*   Updated: 2025/03/18 12:12:39 by vhoracek         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:29:34 by vhoracek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int		main(int argc, char* argv[])
 {
 	if (argc != 2)
 		printf("Enter a single number(unsigned int)\n");
-	printf("unsigned int: %u\n utoa output: %s\n", (unsigned int)atol(argv[1]), ft_utoa(atol(argv[1])));
+	printf("unsigned int: %u\n, (unsigned int)atol(argv[1]));
+	printf("utoa output : %s\n", ft_utoa(atol(argv[1])));
 	return (0);
 }
 */

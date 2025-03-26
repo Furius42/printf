@@ -10,23 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ftprintf.h"
 #include <stdarg.h>
+#include "ftprintf.h"
+#include "libft.h"
 
 int	convert(char c_char, va_list ap); //remove
 
-int ft_printf(const char *str, ...);
+int	ft_printf(const char *str, ...);
 
-int	main(int argc, char* argv[])
+int	main(int argc, char *argv[])
 {
 	ft_printf(argv[1]);
 	printf(argv[1]);
 	return (0);
 }
 
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-	va_list ap;
+	va_list	ap;
 	int		len;
 
 	va_start(ap, str);
@@ -34,7 +35,7 @@ int ft_printf(const char *str, ...)
 	while (str)
 	{
 		if (*str == '%')
-			len += convert(*++str,ap);
+			len += convert(*++str, ap);
 		else
 			len += write(1, *str++, 1);
 		++len;
@@ -42,7 +43,6 @@ int ft_printf(const char *str, ...)
 	va_end(ap);
 	return (len);
 }
-
 
 /*
 • %c Prints a single character.
@@ -54,5 +54,4 @@ int ft_printf(const char *str, ...)
 • %x Prints a number in hexadecimal (base 16) lowercase format.
 • %X Prints a number in hexadecimal (base 16) uppercase format.
 • %% Prints a percent sign.
-
 */

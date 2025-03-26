@@ -6,7 +6,7 @@
 /*   By: vhoracek <vhoracek@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:41:25 by vhoracek          #+#    #+#             */
-/*   Updated: 2025/03/24 14:18:03 by vhoracek         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:50:21 by vhoracek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	convert(char c_char, va_list ap)
 	unsigned char	*out;
 	int				len;
 
+	len = 0;
 	if (c_char == 'c')
 	{
 		out[0] = va_arg(ap, int);
@@ -29,7 +30,7 @@ int	convert(char c_char, va_list ap)
 		out = ft_strdup(va_arg(ap, char *));
 		return (write(1, out, ft_strlen(out)));
 	}
-	else if (c_char == 'd' || c_char == 'i' || c_char == 'u') // decimal - int argument is converted to signed decimal notation.
+	else if (c_char == 'd' || c_char == 'i' || c_char == 'u')
 	{
 		if (c_char == 'u')
 			out = ft_utoa(va_arg(ap, unsigned int));
@@ -39,19 +40,20 @@ int	convert(char c_char, va_list ap)
 		free(out);
 		return (len);
 	}
-	else if (c_char == 'p' || c_char == 'x' || c_char == 'X') // ptr - void * pointer argument is printed in hexadecimal // as 'x'
+	else if (c_char == 'p' || c_char == 'x' || c_char == 'X')
 	{
 		if (c_char == 'p')
 		{
-			out = "0x" + ft_bitoa(va_arg(ap, long long unsigned int),16); //// cheated > ? ?? ? ?
+			len = write(1, "0x", 2);
+			out = ft_bitoa(va_arg(ap, long long int), 16);
 		}
-			else if (c_char == 'X')
-			out = ft_strupcase(ft_bitoa(va_arg(ap, long long unsigned int)),16);
+		else if (c_char == 'X')
+			out = ft_strupcase(ft_bitoa(va_arg(ap, long long int), 16));
 		else
-			out = ft_bitoa(va_arg(ap, long long unsigned int), 16);
-		return (write(1, out, ft_strlen(out)));
+			out = ft_bitoa(va_arg(ap, long long int), 16);
+		return (len + write(1, out, ft_strlen(out)));
 	}
-	else if  (c_char == '%')
+	else if (c_char == '%')
 		return (write(1, '%', 1));
 	else
 	{
