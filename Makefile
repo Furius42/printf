@@ -1,33 +1,53 @@
-SRCS	=	libftprintf.c \
-			convert.c \
-			ft_bitoa.c
+# Colors
+GREEN = \033[32m
+RED = \033[31m
+YELLOW = \033[33m
+BOLD = \033[1m
+RESET = \033[0m
 
-OBJS	= ${SRCS:%c=%o}			# Object files: .o files corresponding to .c files
+# Substitutes
+SRCS = src/*.c
 
-INCLUDES = libft.h
+OBJS = $(SRCS:.c=.o)
 
-CFLAGS	= cc -Wall -Wextra -Werror		# Flags
+COMPILE = cc -Wall -Werror -Wextra -fPIC
 
-NAME = libft.a
+NAME = libftprintf.a
 
-${NAME}: ${OBJS}				# Rule to create the static library
-	@ar rc ${NAME} ${OBJS}
-	@echo "Library $(NAME) created."
+LIB_DIR = ./libft/
 
-%.o: %.c						# Rule to compile .c files into .o files
-	@${CFLAGS} -c $< -o ${<:%c=%o}
-	@echo "Compiled $@."
+LIBFT = libft.a
+
+INCLUDE = ./includes/*.h
 
 all: ${NAME}
 
-clean:							# Rule to remove object files
-	@rm -f ${OBJS}
-	@echo "Object files removed."
+${NAME}:${OBJS} ${LIBFT}
+	ar rcs ${NAME} ${OBJS}
+	echo "$(GREEN)$(BOLD) === Objects added to $(NAME) ===$(RESET)"
+	ar rcs ${NAME} ${LIB_DIR}${LIBFT}
+	echo "$(GREEN)$(BOLD)=== Libft added to $(NAME) ===$(RESET)"
 
-fclean: clean					# Rule to remove the library and object files
-	@rm -f ${NAME}
-	@echo "Library $(NAME) and object files removed."
+#${<:%c=%o}
 
-re: fclean all					# Rule to clean and rebuild everything
+${OBJS}: ${SRCS} ${LIBFT} ${INCLUDE}
+	@${COMPILE} -I ${LIB_DIR} -I ./includes -c $< -o $@
+	@echo "$(GREEN)$(BOLD) ===Compiled $@ with includes. ===$(RESET)"
 
-.PHONY: all clean fclean re		# Ensures these targets are not treated as files
+${LIBFT}:
+	${MAKE} -C ${LIB_DIR}
+	echo "$(GREEN)$(BOLD) === $(LIBFT) compiled ===$(RESET)"
+	@make clean -C ${LIB_DIR}
+	echo "$(RED)$(BOLD) === LIBFT objects purged ===$(RESET)"
+
+clean:
+#	make clean -C ${LIB_DIR}
+	rm -f ${OBJ}
+	rm -f ${LIBFT}
+
+fclean: clean
+	make fclean -C ${LIB_DIR}
+	rm -f ${NAME}
+	rm -f ${LIBFT}
+
+re: fclean all

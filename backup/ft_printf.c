@@ -6,7 +6,7 @@
 /*   By: vhoracek <vhoracek@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:30:50 by vhoracek          #+#    #+#             */
-/*   Updated: 2025/03/28 23:30:54 by vhoracek         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:20:09 by vhoracek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,23 @@
 //#include "ftprintf.h"
 #include "libft.h"
 
-va_list	ap_c;
-
 int	ft_printf(const char *str, ...);
-int	convert(char c_char, va_list ap);
+static int	convert(char c_char, va_list ap);
 
-int	main()
+int	main(int argc, char *argv[]) //  u  i  d  s  c  %  p  x  X
 {
 	char	*str;
 	int		num;
 	int		chars;
 	
-	str = "This is number";
-	num = 12345678;
-	chars = ft_printf("Test %p string: %s\n", &num, str);
-	printf("CHARS PRinTED: %i STRING: %s\n", chars, str);
+	if (argc == 0)
+		return(printf("\nGive 2 arguments: 1/String 2/int %s\n", argv[0]) *0 -1);
+	str = NULL;
+	num = 0;
+	chars = printf("U: %u\nI: %i\nD: %d\nS: %s\nC: %c\n%%\np: %p\nx: %x\nX %X\n", num, num, num, str, str[0], &num, num, num);
+	printf("CHARS Print_F: %i\n", chars);
+	chars = ft_printf("U: %u\nI: %i\nD: %d\nS: %s\nC: %c\n%%\np: %p\nx: %x\nX %X\n", num, num, num, str, str[0], &num, num, num);
+	ft_printf("CHARS PRinTED: %i\n", chars);
 	return (0);
 }
 
@@ -50,13 +52,14 @@ int	ft_printf(const char *str, ...)
 		}
 		else
 			len += write(1, (const void*)str++, 1);
-//		++len;
+		if(!*str)
+			break;
 	}
 	va_end(ap);
 	return (len);
 }
 
-int	convert(char c_char, va_list ap)
+static int	convert(char c_char, va_list ap)
 {
 	char	*out;
 	int		len;
@@ -103,71 +106,22 @@ int	convert(char c_char, va_list ap)
 		return (write(1, &c_char, 1));
 	else
 	{
-		write(1, &"%", 1);
-		return (write(1, &c_char, 1) + 1);
+		write (1, &"%", 1);
+		return (write (1, &c_char, 1) + 1);
 	}
 }
+/*
+Check if strupcase and strdncase is fixed (skipping first letter)
+Split convert function to fit 25 lines // or make shorter
+Makefile
+Norminette
 
-int convert(char c_char, va_list ap)
-{
-	char	*out;
-	int		len;
-	void	*arg;
+Check Edge cases
+/ invalid input
+/ NULL input
+/ out of range
+/ memory leaks
+/ error management
 
-	len = 0;
-	arg = va_arg(ap, void*);
-	
-	// get value
-	if (c_char == 'c')
-	{
-		if(out = malloc(sizeof(char)) == NULL)
-			return (37707);
-		*out = (char)&arg;
-	}
-	else if (c_char == 's')
-	{
-/*		len = ft_strlen((const char*)arg);
-		if(out = malloc(len * sizeof(char)) == NULL)
-			return (37707);*/
-		out = ft_strdup((const char*)arg);
-//		len = 0;
-	}
-	else if (c_char == 'd' || c_char == 'i' || c_char == 'u')
-	{
-		if (c_char == 'u')
-			out = ft_utoa((unsigned int)arg);
-		else
-			out = ft_itoa((int)arg);
-	}
-	else if (c_char == 'p' || c_char == 'x' || c_char == 'X')
-	{
-		if (c_char == 'p')
-		{
-			len = write(1, "0x", 2);
-			out = ft_bitoa((long long int)arg, 16);
-		}
-		else if (c_char == 'X')
-			out = ft_strupcase(ft_bitoa((long long int)arg, 16)); /// can I now really free out? isnt it linked too far> out > strupcase > bitoa(malloc here)
-		else
-			out = ft_bitoa((long long int)arg, 16);
-	}
-/// unfinished
-	else if (c_char == '%')
-		return (write(1, &c_char, 1));
-	else
-	{
-		write(1, &"%", 1);
-		return (write(1, &c_char, 1) + 1);
-	}
-/// till here
-	if (out == NULL)
-		return (37707);
-	len += write(1, out, ft_strlen(out));
-	free(out);
-	return (len);
-	// malloc
-	// strlen
-	// print out
-	// free malloc
-	// return len
-}
+-Check with Francinette
+*/

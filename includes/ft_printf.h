@@ -1,38 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdncase.c                                     :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhoracek <vhoracek@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 13:04:17 by vhoracek          #+#    #+#             */
-/*   Updated: 2025/03/25 20:40:02 by vhoracek         ###   ########.fr       */
+/*   Created: 2025/03/25 20:35:44 by vhoracek          #+#    #+#             */
+/*   Updated: 2025/04/08 16:08:22 by vhoracek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-include <stdio.h>
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-char* ft_strdncase(char* str);
+# include "../libft/libft.h"
+# include <unistd.h>
+# include <stdarg.h>
 
-int main(int argc, char* argv[])
-{
-	if (argc != 2 )
-		printf("Usage: Input a string\n");
-	printf("Input : %s\n", argv[1]);
-	printf("Output: %s\n", ft_strdncase(argv[1]));
-	return (0);
-}
-*/
-char	*ft_strdncase(char *str)
-{
-	char	*start;
+int	ft_printf(const char *format, ...);
+int	convert(char c_char, va_list ap);
+int	convert_int(char c_char, va_list ap);
 
-	start = str;
-	while (*str++)
-	{
-		if (*str >= 'A' && *str <= 'Z')
-			*str += 32;
-	}
-	return (start);
-}
+#endif
