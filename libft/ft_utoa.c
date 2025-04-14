@@ -6,7 +6,7 @@
 /*   By: vhoracek <vhoracek@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:29:03 by vhoracek          #+#    #+#             */
-/*   Updated: 2025/03/25 20:29:34 by vhoracek         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:58:39 by vhoracek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_utoa(unsigned int n)
 	int		len;
 
 	len = count_digits(n);
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = (char *)calloc(len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	return (convert(n, str, len));

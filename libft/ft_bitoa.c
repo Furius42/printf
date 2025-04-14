@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 }
 */
 
-static int	count_digits(long long int n, int base)
+static int	count_digits(unsigned long long int n, int base)
 {
 	int	count;
 
@@ -51,9 +51,9 @@ static int	count_digits(long long int n, int base)
 	return (count);
 }
 
-static char	*decimal(long long int n, char *str, int len)
+static char	*decimal(unsigned long long int n, char *str, int len)
 {
-	long long int	num;
+	unsigned long long int	num;
 
 	if (n < 0)
 	{
@@ -70,10 +70,10 @@ static char	*decimal(long long int n, char *str, int len)
 	return (str);
 }
 
-static char	*convert(long long int n, char *str, int len, int base)
+static char	*convert(unsigned long long int n, char *str, int len, int base)
 {
-	unsigned long int	num;
-	static char			*chars;
+	unsigned long long int	num;
+	static char				*chars;
 
 	chars = "0123456789abcdefghijklmnopqrstuvwxyz";
 	num = n;
@@ -86,13 +86,14 @@ static char	*convert(long long int n, char *str, int len, int base)
 	return (str);
 }
 
-char	*ft_bitoa(long long int n, int base)
+char	*ft_bitoa(unsigned long long int n, int base)
 {
 	char	*str;
 	int		len;
 
+	len = 0;
 	len = count_digits(n, base);
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = (char *)calloc(len + 1, sizeof(char));
 	if (!str || base > 36 || base < 2)
 		return (NULL);
 	if (base == 10)

@@ -18,18 +18,20 @@ char	*ft_strdup(const char *s)
 	size_t	len;
 	size_t	i;
 
+	if (!s)
+		return (NULL);
 	len = 0;
-	i = 0;
 	while (s[len] != '\0')
 		len++;
-	duplicate = malloc((len + 1) * sizeof(char));
+	duplicate = (char *)calloc((len + 1), sizeof(char));
 	if (!duplicate)
 		return (NULL);
+	i = 0;
 	while (i < len)
 	{
 		duplicate[i] = s[i];
 		i ++;
 	}
-	duplicate[i] = '\0';
+	duplicate[len] = '\0';
 	return (duplicate);
 }

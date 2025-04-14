@@ -22,7 +22,7 @@ int main(void)
 {
 	char	*result;
 
-	result = ft_itoa(-23042);
+	result = ft_itoa(0);
 	if (result)
 	{
 		printf("Result: %s\n", result);
@@ -31,6 +31,7 @@ int main(void)
 	return (0);
 }
 */
+
 // Count digits
 static int	count_digits(int n)
 {
@@ -52,6 +53,7 @@ static char	*handle_negative(int n, char *str, int len)
 {
 	unsigned int	num;
 
+	num = 0;
 	if (n < 0)
 	{
 		str[0] = '-';
@@ -74,7 +76,7 @@ char	*ft_itoa(int n)
 	int		len;
 
 	len = count_digits(n);
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = (char *)calloc(len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	return (handle_negative(n, str, len));
