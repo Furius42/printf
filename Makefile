@@ -8,40 +8,61 @@ RESET = \033[0m
 # Substitutes
 NAME = libftprintf.a
 
-SRCS = src/ft_printf.c src/convert.c src/convert_int.c src/convert_str.c src/convert_p.c
+SRCS = src/ft_printf.c src/ft_printf_utils.c
 OBJS = $(SRCS:.c=.o)
 
 INCLUDES = -I includes -I libft
-COMPILE = cc -Wall -Werror -Wextra
+COMPILE = cc -Wall -Werror -Wextra -g
 
 LIB_DIR = ./libft
 LIBFT = $(LIB_DIR)/libft.a
 
 # Rules
+TEST = a.out
+TEST_SRC = main.c
+TEST_OBJ = $(TEST_SRC:.c=.o)
 
+# Default target
 all: ${NAME}
 
+# Build libft (ensure it is built before libftprintf)
 ${LIBFT}:
-	@${MAKE} -C ${LIB_DIR}
+	@$(MAKE) -C ${LIB_DIR}
 	@echo "$(GREEN)$(BOLD) === $(LIBFT) built ===$(RESET)"
-	@make clean -C ${LIB_DIR}
-	@echo "$(RED)$(BOLD) === LIBFT objects purged ===$(RESET)"
 
+# Build libftprintf.a and link libft.a
 ${NAME}: ${LIBFT} ${OBJS}
 	@echo "$(GREEN)$(BOLD) === $(NAME) Built with ft_printf and libft ===$(RESET)"
-	cp ${LIBFT_DIR}${LIBFT} ${NAME}
 	ar rcs ${NAME} ${OBJS}
+	@echo "$(GREEN) === ${NAME} built ===$(RESET)"
 
+# Compile .o files from .c files
 %.o: %.c
 	@${COMPILE} ${INCLUDES} -c $< -o $@
-	@echo "$(GREEN) === Compiled $<      to      $@ ===$(RESET)"
+	@echo "$(GREEN) === Compiled $< to $@ ===$(RESET)"
 
+# Build the test program
+test: 	${NAME} $(TEST_OBJ) $(LIBFT)
+	cc -g -o $(TEST) $(TEST_OBJ) $(NAME) $(LIBFT) -I includes -lc
+	@echo "$(YELLOW)$(BOLD) === Test executable '$(TEST)' built ===$(RESET)"
+
+# Clean object files and libft
 clean:
 	@rm -f ${OBJS}
 	@${MAKE} -C ${LIB_DIR} clean
+	@echo "$(RED)$(BOLD) === Cleaned libft and libftprintf ===$(RESET)"
 
-fclean: clean
+# Clean test files
+testclean:
+	@rm -f $(TEST_OBJ)
+
+# Clean everything including the library
+fclean: clean testclean
 	@rm -f ${NAME}
 	@${MAKE} -C ${LIB_DIR} fclean
 
+# Rebuild everything
 re: fclean all
+
+# Compile all incl. main.c and clean up.. leaving just executable a.out
+out: all test fclean
